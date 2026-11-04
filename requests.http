@@ -3,21 +3,27 @@
 
 ### @name health
 GET {{baseUrl}}/api/health
+> {% client.test("Health returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name listProducts
 GET {{baseUrl}}/api/products
+> {% client.test("List products returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name searchProducts
 GET {{baseUrl}}/api/products?q=planner
+> {% client.test("Product search returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name filterProducts
 GET {{baseUrl}}/api/products?category=Electronics
+> {% client.test("Category filter returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name sortProductsAscending
 GET {{baseUrl}}/api/products?sort=price
+> {% client.test("Ascending price sort returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name sortProductsDescending
 GET {{baseUrl}}/api/products?sort=-price
+> {% client.test("Descending price sort returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name create
 POST {{baseUrl}}/api/products
@@ -30,9 +36,11 @@ Content-Type: application/json
   "price": 24.99,
   "stock": 12
 }
+> {% client.test("Create returns 201", function() { client.assert(response.status === 201, "Expected 201"); }); %}
 
 ### @name getCreatedProduct
 GET {{baseUrl}}/api/products/{{create.response.body.data.id}}
+> {% client.test("Get created product returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name invalidCreate
 POST {{baseUrl}}/api/products
@@ -45,19 +53,21 @@ Content-Type: application/json
   "price": 0,
   "stock": -1
 }
+> {% client.test("Invalid create returns 422", function() { client.assert(response.status === 422, "Expected 422"); }); %}
 
 ### @name duplicateSku
-# Uses an existing seed SKU and should return 422.
+# Run after create; the created product's SKU should be rejected as a duplicate.
 POST {{baseUrl}}/api/products
 Content-Type: application/json
 
 {
   "name": "Duplicate SKU Test",
-  "sku": "HOM-0001",
+  "sku": "{{create.response.body.data.sku}}",
   "category": "Home",
   "price": 19.99,
   "stock": 1
 }
+> {% client.test("Duplicate SKU returns 422", function() { client.assert(response.status === 422, "Expected 422"); }); %}
 
 ### @name update
 PUT {{baseUrl}}/api/products/{{create.response.body.data.id}}
@@ -70,6 +80,7 @@ Content-Type: application/json
   "price": 34.99,
   "stock": 8
 }
+> {% client.test("Update returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name patch
 PATCH {{baseUrl}}/api/products/{{create.response.body.data.id}}
@@ -78,12 +89,16 @@ Content-Type: application/json
 {
   "stock": 6
 }
+> {% client.test("Patch returns 200", function() { client.assert(response.status === 200, "Expected 200"); }); %}
 
 ### @name missingProduct
 GET {{baseUrl}}/api/products/{{missingId}}
+> {% client.test("Missing product returns 404", function() { client.assert(response.status === 404, "Expected 404"); }); %}
 
 ### @name missingRoute
 GET {{baseUrl}}/api/not-a-route
+> {% client.test("Unknown route returns 404", function() { client.assert(response.status === 404, "Expected 404"); }); %}
 
 ### @name delete
 DELETE {{baseUrl}}/api/products/{{create.response.body.data.id}}
+> {% client.test("Delete returns 204", function() { client.assert(response.status === 204, "Expected 204"); }); %}
