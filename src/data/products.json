@@ -2,7 +2,7 @@
   {
     "id": "0f6c2f78-82a1-4a14-9e40-c7a17c948e5e",
     "name": "Everyday Ceramic Mug",
-    "sku": "HOME-MUG-001",
+    "sku": "HOM-0001",
     "category": "Home",
     "price": 14.99,
     "stock": 42,
@@ -11,7 +11,7 @@
   {
     "id": "3bf4a951-c3d7-43cb-bab7-dac0d12f34e6",
     "name": "Insulated Stainless Steel Bottle",
-    "sku": "OUT-BTL-002",
+    "sku": "OUT-0002",
     "category": "Outdoors",
     "price": 28.5,
     "stock": 25,
@@ -20,7 +20,7 @@
   {
     "id": "53a407e2-301b-4a5b-9078-91609c31a72f",
     "name": "Woven Cotton Throw Blanket",
-    "sku": "HOME-THR-003",
+    "sku": "HOM-0003",
     "category": "Home",
     "price": 64,
     "stock": 11,
@@ -29,7 +29,7 @@
   {
     "id": "6e98b742-0584-4c12-9196-fbb94c4709a3",
     "name": "Wireless Charging Stand",
-    "sku": "TECH-CHG-004",
+    "sku": "ELE-0004",
     "category": "Electronics",
     "price": 39.95,
     "stock": 18,
@@ -38,7 +38,7 @@
   {
     "id": "7ca0a166-7c09-4855-bfa6-98a0475fda90",
     "name": "Hardcover Weekly Planner",
-    "sku": "OFF-PLN-005",
+    "sku": "STA-0005",
     "category": "Stationery",
     "price": 22,
     "stock": 60,
@@ -47,7 +47,7 @@
   {
     "id": "9d401cb7-80b6-44ca-a86b-1ef2eef14c1b",
     "name": "Compact Bluetooth Speaker",
-    "sku": "TECH-SPK-006",
+    "sku": "ELE-0006",
     "category": "Electronics",
     "price": 79.99,
     "stock": 9,
@@ -56,7 +56,7 @@
   {
     "id": "b4de6f55-f0ad-45c4-a987-6ac26c2ea437",
     "name": "Trailside Daypack",
-    "sku": "OUT-PCK-007",
+    "sku": "OUT-0007",
     "category": "Outdoors",
     "price": 54.5,
     "stock": 16,
@@ -65,7 +65,7 @@
   {
     "id": "e28a7452-5f67-4c46-9e87-4a42fdd16609",
     "name": "Amber Glass Desk Lamp",
-    "sku": "HOME-LMP-008",
+    "sku": "HOM-0008",
     "category": "Home",
     "price": 89,
     "stock": 7,

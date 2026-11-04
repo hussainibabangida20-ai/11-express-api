@@ -1,6 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import productsRouter from './routes/products.routes.js';
+import HttpError from './errors/http-error.js';
 
 const app = express();
 const publicDirectory = fileURLToPath(new URL('../public/', import.meta.url));
@@ -26,7 +27,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/products', productsRouter);
 
 app.use((req, res) => {
-  res.status(404).json({ error: { message: 'Not found' } });
+  throw new HttpError(404, 'Not found.');
 });
 
 app.use((err, req, res, next) => {
@@ -34,9 +35,26 @@ app.use((err, req, res, next) => {
     return next(err);
   }
 
-  const status = err.status || err.statusCode || 500;
-  const message = status >= 500 ? 'Internal server error' : err.message;
-  res.status(status).json({ error: { message } });
+  const status = Number.isInteger(err.status) && err.status >= 400 && err.status <= 599
+    ? err.status
+    : Number.isInteger(err.statusCode) && err.statusCode >= 400 && err.statusCode <= 599
+      ? err.statusCode
+      : 500;
+  const production = process.env.NODE_ENV === 'production';
+  const message = status >= 500 && production ? 'Internal server error' : err.message;
+  const error = { message };
+
+  if (err.fields) {
+    error.fields = err.fields;
+  }
+  if (!production && err.stack) {
+    error.stack = err.stack;
+  }
+  if (status >= 500) {
+    console.error(err);
+  }
+
+  res.status(status).json({ error });
 });
 
 export default app;
