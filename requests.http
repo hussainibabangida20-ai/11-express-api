@@ -1,0 +1,89 @@
+@baseUrl = http://localhost:3000
+@missingId = 00000000-0000-4000-8000-000000000000
+
+### @name health
+GET {{baseUrl}}/api/health
+
+### @name listProducts
+GET {{baseUrl}}/api/products
+
+### @name searchProducts
+GET {{baseUrl}}/api/products?q=planner
+
+### @name filterProducts
+GET {{baseUrl}}/api/products?category=Electronics
+
+### @name sortProductsAscending
+GET {{baseUrl}}/api/products?sort=price
+
+### @name sortProductsDescending
+GET {{baseUrl}}/api/products?sort=-price
+
+### @name create
+POST {{baseUrl}}/api/products
+Content-Type: application/json
+
+{
+  "name": "REST Client Test Product",
+  "sku": "RCP-9001",
+  "category": "Home",
+  "price": 24.99,
+  "stock": 12
+}
+
+### @name getCreatedProduct
+GET {{baseUrl}}/api/products/{{create.response.body.data.id}}
+
+### @name invalidCreate
+POST {{baseUrl}}/api/products
+Content-Type: application/json
+
+{
+  "name": "X",
+  "sku": "invalid",
+  "category": "Unknown",
+  "price": 0,
+  "stock": -1
+}
+
+### @name duplicateSku
+# Uses an existing seed SKU and should return 422.
+POST {{baseUrl}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Duplicate SKU Test",
+  "sku": "HOM-0001",
+  "category": "Home",
+  "price": 19.99,
+  "stock": 1
+}
+
+### @name update
+PUT {{baseUrl}}/api/products/{{create.response.body.data.id}}
+Content-Type: application/json
+
+{
+  "name": "Updated REST Client Product",
+  "sku": "RCP-9002",
+  "category": "Electronics",
+  "price": 34.99,
+  "stock": 8
+}
+
+### @name patch
+PATCH {{baseUrl}}/api/products/{{create.response.body.data.id}}
+Content-Type: application/json
+
+{
+  "stock": 6
+}
+
+### @name missingProduct
+GET {{baseUrl}}/api/products/{{missingId}}
+
+### @name missingRoute
+GET {{baseUrl}}/api/not-a-route
+
+### @name delete
+DELETE {{baseUrl}}/api/products/{{create.response.body.data.id}}
