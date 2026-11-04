@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7f6">
+    <title>Products · Fieldwork</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Fieldwork home">
+          <span class="brand-mark" aria-hidden="true">f</span>
+          <span>fieldwork<span class="brand-period">.</span></span>
+        </a>
+        <div class="topbar-meta">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Inventory workspace</span>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="page-heading" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">CATALOG <span>/</span> INVENTORY</p>
+            <h1 id="page-title">Products</h1>
+            <p class="page-description">Keep your catalog organized and up to date.</p>
+          </div>
+          <button class="button button-primary" id="open-product-dialog" type="button">
+            <span class="button-plus" aria-hidden="true">+</span>
+            Add product
+          </button>
+        </section>
+
+        <section class="catalog-card" aria-label="Product catalog">
+          <div class="toolbar">
+            <label class="search-box" for="search-input">
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <circle cx="8.8" cy="8.8" r="5.8"></circle>
+                <path d="m13.2 13.2 4 4"></path>
+              </svg>
+              <input id="search-input" type="search" placeholder="Search products..." autocomplete="off">
+              <kbd>⌘ K</kbd>
+            </label>
+            <div class="toolbar-filters">
+              <label class="select-wrap">
+                <span class="sr-only">Filter by category</span>
+                <select id="category-filter">
+                  <option value="">All categories</option>
+                  <option value="Home">Home</option>
+                  <option value="Outdoors">Outdoors</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Stationery">Stationery</option>
+                </select>
+              </label>
+              <label class="select-wrap">
+                <span class="sr-only">Sort by price</span>
+                <select id="sort-filter">
+                  <option value="">Default order</option>
+                  <option value="price">Price: low to high</option>
+                  <option value="-price">Price: high to low</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">PRODUCT</th>
+                  <th scope="col">CATEGORY</th>
+                  <th scope="col">PRICE</th>
+                  <th scope="col">IN STOCK</th>
+                  <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="products-body">
+                <tr><td class="table-message" colspan="5">Loading products...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <footer class="table-footer">
+            <span id="product-count">Loading catalog</span>
+            <span class="footer-note"><span class="footer-indicator"></span>Synced with your catalog</span>
+          </footer>
+        </section>
+        <p class="page-footnote">Changes are saved directly to your product catalog.</p>
+      </main>
+    </div>
+
+    <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-title">
+      <form class="product-form" id="product-form" novalidate>
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">NEW LISTING</p>
+            <h2 id="dialog-title">Add a product</h2>
+            <p class="dialog-description">Add the details for your new catalog item.</p>
+          </div>
+          <button class="icon-button dialog-close" id="close-product-dialog" type="button" aria-label="Close dialog">×</button>
+        </div>
+
+        <div class="form-grid">
+          <label class="form-field form-field-wide" for="product-name">
+            <span>Product name</span>
+            <input id="product-name" name="name" type="text" minlength="2" maxlength="100" placeholder="e.g. Studio Ceramic Vase" required>
+            <small class="field-error" data-error-for="name"></small>
+          </label>
+          <label class="form-field" for="product-sku">
+            <span>SKU</span>
+            <input id="product-sku" name="sku" type="text" placeholder="e.g. HOM-0012" required>
+            <small class="field-hint">Format: ABC-1234</small>
+            <small class="field-error" data-error-for="sku"></small>
+          </label>
+          <label class="form-field" for="product-category">
+            <span>Category</span>
+            <select id="product-category" name="category" required>
+              <option value="" disabled selected>Select category</option>
+              <option value="Home">Home</option>
+              <option value="Outdoors">Outdoors</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Stationery">Stationery</option>
+            </select>
+            <small class="field-error" data-error-for="category"></small>
+          </label>
+          <label class="form-field" for="product-price">
+            <span>Price</span>
+            <div class="input-prefix">
+              <span aria-hidden="true">$</span>
+              <input id="product-price" name="price" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+            </div>
+            <small class="field-error" data-error-for="price"></small>
+          </label>
+          <label class="form-field" for="product-stock">
+            <span>Initial stock</span>
+            <input id="product-stock" name="stock" type="number" min="0" step="1" placeholder="0" required>
+            <small class="field-error" data-error-for="stock"></small>
+          </label>
+        </div>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button class="button button-secondary" id="cancel-product" type="button">Cancel</button>
+          <button class="button button-primary" id="submit-product" type="submit">
+            <span class="button-plus" aria-hidden="true">+</span>
+            Create product
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>
